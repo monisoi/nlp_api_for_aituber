@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 # Keras
 from keras.preprocessing.sequence import pad_sequences
 from keras.models import load_model

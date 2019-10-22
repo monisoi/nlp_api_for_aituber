@@ -1,10 +1,16 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from flask import Flask, request, jsonify
 from sentiment_analysis import SentimentAnalysis
-from conversation import Conversation
+# from conversation_char_level import Conversation
+from conversation_word_level import Conversation
 
 SA_TOKENIZER = './models/tokenizer.pkl'
 SA_MODEL = './models/model.h5'
-CONVERSATION_MODEL = './models/s2s.h5'
+# CONVERSATION_MODEL = './models/s2s.h5'
+CONVERSATION_TOKENIZER = './models/seq2seq_tokenizer.pkl'
+CONVERSATION_MODEL = './models/seq2seq.h5'
 
 app = Flask(__name__)
 
@@ -15,7 +21,7 @@ def _load_model():
     global conversation
 
     sentiment_analysis = SentimentAnalysis(SA_TOKENIZER, SA_MODEL)
-    conversation = Conversation(CONVERSATION_MODEL)
+    conversation = Conversation(CONVERSATION_TOKENIZER, CONVERSATION_MODEL)
 
 
 @app.route('/')
@@ -64,4 +70,6 @@ def talk():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    # to solve a problem. see this issue.
+    # https://github.com/keras-team/keras/issues/13353
+    app.run(host='0.0.0.0', port=5000, threaded=False)
