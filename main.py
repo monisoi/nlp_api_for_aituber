@@ -6,11 +6,10 @@ from sentiment_analysis import SentimentAnalysis
 # from conversation_char_level import Conversation
 from conversation_word_level import Conversation
 
-SA_TOKENIZER = './models/tokenizer.pkl'
-SA_MODEL = './models/model.h5'
-# CONVERSATION_MODEL = './models/s2s.h5'
-CONVERSATION_TOKENIZER = './models/seq2seq_tokenizer.pkl'
-CONVERSATION_MODEL = './models/seq2seq.h5'
+SA_TOKENIZER = './models/sa_tokenizer.pkl'
+SA_MODEL = './models/sa_model.h5'
+CONV_TOKENIZER = './models/conv_tokenizer.pkl'
+CONV_MODEL = './models/conv_model.h5'
 
 app = Flask(__name__)
 
@@ -21,7 +20,7 @@ def _load_model():
     global conversation
 
     sentiment_analysis = SentimentAnalysis(SA_TOKENIZER, SA_MODEL)
-    conversation = Conversation(CONVERSATION_TOKENIZER, CONVERSATION_MODEL)
+    conversation = Conversation(CONV_TOKENIZER, CONV_MODEL)
 
 
 @app.route('/')
