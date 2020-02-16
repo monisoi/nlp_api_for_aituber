@@ -4,9 +4,9 @@
 import numpy as np
 import re
 import pickle
-from keras.models import Model, load_model
-from keras.layers import Input
-from keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.layers import Input
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 
 SEQUENCE_LENGTH = 30
@@ -68,7 +68,7 @@ class Conversation():
         decoder_lstm, *decoder_states = decoder_lstm_layer(
             decoder_embedded,
             initial_state=decoder_states_inputs)
-        decoder_dense_layer = self.model.layer[6]
+        decoder_dense_layer = self.model.layers[6]
         decoder_outputs = decoder_dense_layer(decoder_lstm)
         decoder_model = Model(
             [decoder_inputs] + decoder_states_inputs,
@@ -86,7 +86,7 @@ class Conversation():
         eos = [self.word2index['</s>']]
         states = self.encoder_model.predict(tokenized_input_seq)
         target = np.array(bos)
-        output_seq = bos
+        output_seq = [bos[0]]
         for i in range(MAX_OUTPUT_LENGTH):
             tokens, *states = self.decoder_model.predict([target] + states)
             output_index = [np.argmax(tokens[0, -1, :])]
